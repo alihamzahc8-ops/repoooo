@@ -1,11 +1,26 @@
-# download script
-curl -sSf https://sshx.io/get -o install.sh
+import subprocess
+import os
 
-# run script
-sh install.sh
+# Step 1: sshx install karo
+subprocess.run(
+    "curl -sSf https://sshx.io/get | sh",
+    shell=True,
+    check=True
+)
 
-# binary ko executable banao (agar zarurat ho)
-chmod +x ~/.local/bin/sshx
+# Step 2: sshx run karo
+process = subprocess.Popen(
+    ["sshx"],
+    stdout=subprocess.PIPE,
+    stderr=subprocess.STDOUT,
+    text=True
+)
 
-# run sshx
-~/.local/bin/sshx
+# Step 3: Link print karo
+for line in process.stdout:
+    print(line, end="")
+    if "sshx.io" in line:
+        print("\n✅ Yeh link browser mein kholo!")
+        break
+
+process.wait()
